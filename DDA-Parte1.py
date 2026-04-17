@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import numpy as np
 """
 Si no tienen las librerias, instálenlas con estos comandos en el cmd:
@@ -74,27 +75,27 @@ else:
 # -----------------------------
 # Gráfica FTotal vs H
 # -----------------------------
-H_vals = np.linspace(1.0, altura, 200) # Se genera un rango de valores de H desde 1.0 hasta altura=3.0 con 200 puntos para obtener una curva suave en la gráfica.
+H_vals = np.linspace(1.00, altura, 200) # Se genera un rango de valores de H desde 1.0 hasta altura=3.0 con 200 puntos para obtener una curva suave en la gráfica.
 F_trap_vals = np.array([fuerza_trapecio(longitud, h_val, n) for h_val in H_vals]) # Se calcula la fuerza total usando el método del trapecio para cada valor de H en el rango especificado.
 F_teo_vals = np.array([fuerza_teorica(longitud, h_val) for h_val in H_vals]) # Se calcula la fuerza total usando la ecuación teórica para cada valor de H en el rango especificado.
 
 
 # Puntos discretos visibles en la gráfica principal
-H_trap = np.linspace(1.0, altura, n+1) # Se generan n+1 puntos de H para mostrar en la gráfica (incluyendo los extremos).
+H_trap = np.linspace(1.00, altura, n+1) # Se generan n+1 puntos de H para mostrar en la gráfica (incluyendo los extremos).
 F_trap_points = np.array([fuerza_trapecio(longitud, h_val, n) for h_val in H_trap])
 
-# -----------------------------
+# --------------------------------
 # Datos para gráfica del integrando
 # -----------------------------
-y_cont = np.linspace(0.0, altura, 400)
+y_cont = np.linspace(0.00, altura, 400)
 f_cont = integrando(y_cont, longitud, altura)
 
-y_trap = np.linspace(0.0, altura, n + 1)
+y_trap = np.linspace(0.00, altura, n + 1)
 f_trap = integrando(y_trap, longitud, altura)
 
 # -----------------------------
 # Subgráficas
-# -----------------------------3.5
+# -----------------------------
 fig, axs = plt.subplots(2, 1, figsize=(10, 10))
 
 # ==========================================
@@ -120,7 +121,7 @@ for i in range(len(H_trap) - 1):
                 alpha=0.5)
 axs[0].set_xlabel("Altura del fluido H (m)")
 axs[0].set_ylabel("Fuerza total F (N)")
-axs[0].set_title("Fuerza total sobre el dique vs altura H")
+axs[0].set_title("Grafica Fuerza total vs altura H")
 axs[0].grid(True)
 axs[0].legend()
 
@@ -146,11 +147,11 @@ for i in range(len(y_trap) - 1):
 
 axs[1].plot(y_trap, f_trap, color="orange", linestyle="--", label="Aproximación trapezoidal")
 
-axs[1].set_xlabel("profundidad del Fluido y (m)")
+axs[1].set_xlabel("profundidad del Fluido 'y' (m)")
 axs[1].set_ylabel("Fuerza diferencial por unidad de altura f(y)")
 axs[1].set_title(f"Integracion de la fuerza para H = {altura:.2f} m")
 axs[1].grid(True)
 axs[1].legend()
 
-plt.tight_layout()
+plt.tight_layout(pad=2.0, h_pad=2.0)
 plt.show()
