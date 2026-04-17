@@ -26,7 +26,8 @@ def fuerza_trapecio(L, H, n):
 
     suma = integrando(a, L, H) + integrando(b, L, H) # La suma de los valores en los extremos de la integración
     
-    # Se suman los valores del integrando en los puntos intermedios, multiplicados por 2, ya que el método del trapecio requiere que se dupliquen los términos intermedios.
+    # Se suman los valores del integrando en los puntos intermedios, multiplicados por 2, 
+    # ya que el método del trapecio requiere que se dupliquen los términos intermedios.
     for i in range(1, n):
         yi = a + i * h
         suma += 2.0 * integrando(yi, L, H)
@@ -47,21 +48,9 @@ def porcentaje_error(valor_aprox, valor_teorico):
 # Lectura de datos
 # -----------------------------
 
-# Lectura de la longitud
-longitud = float(input("Ingrese la Longitud del dique, L(m): "))
-while longitud < 1.5 or longitud > 3.5:
-    longitud = float(input("Error. Ingrese Longitud en el intervalo [1.50, 3.50] m: "))
-
-#Lectura de la altura
-altura = float(input("Ingrese la Altura del nivel del fluido, H(m): "))
-while altura < 1 or altura > 4.8:
-    altura = float(input("Error. Ingrese Altura en el intervalo [1.00, 4.80] m: "))
-
-#Lectura de la cantidad de trapecios
-n = int(input("Ingrese la cantidad de trapecios n: "))
-while n <= 0:
-    n = int(input("Error. Ingrese un n entero positivo: "))
-
+longitud = 2.0
+altura = 3.0
+n = 6
 # -----------------------------
 # Cálculos para un valor de H
 # -----------------------------
@@ -85,13 +74,13 @@ else:
 # -----------------------------
 # Gráfica FTotal vs H
 # -----------------------------
-H_vals = np.linspace(1.0, 4.8, 200) # Se genera un rango de valores de H desde 1.0 hasta 4.8 con 200 puntos para obtener una curva suave en la gráfica.
+H_vals = np.linspace(1.0, altura, 200) # Se genera un rango de valores de H desde 1.0 hasta altura=3.0 con 200 puntos para obtener una curva suave en la gráfica.
 F_trap_vals = np.array([fuerza_trapecio(longitud, h_val, n) for h_val in H_vals]) # Se calcula la fuerza total usando el método del trapecio para cada valor de H en el rango especificado.
 F_teo_vals = np.array([fuerza_teorica(longitud, h_val) for h_val in H_vals]) # Se calcula la fuerza total usando la ecuación teórica para cada valor de H en el rango especificado.
 
 
 # Puntos discretos visibles en la gráfica principal
-H_trap = np.linspace(1.0, 4.8, n+1) # Se generan n+1 puntos de H para mostrar en la gráfica (incluyendo los extremos).
+H_trap = np.linspace(1.0, altura, n+1) # Se generan n+1 puntos de H para mostrar en la gráfica (incluyendo los extremos).
 F_trap_points = np.array([fuerza_trapecio(longitud, h_val, n) for h_val in H_trap])
 
 # -----------------------------
@@ -105,7 +94,7 @@ f_trap = integrando(y_trap, longitud, altura)
 
 # -----------------------------
 # Subgráficas
-# -----------------------------
+# -----------------------------3.5
 fig, axs = plt.subplots(2, 1, figsize=(10, 10))
 
 # ==========================================
@@ -156,7 +145,7 @@ for i in range(len(y_trap) - 1):
                 alpha=0.5)
 
 axs[1].plot(y_trap, f_trap, color="orange", linestyle="--", label="Aproximación trapezoidal")
-#axs[1].fill_between(y_trap, f_trap, step='mid', alpha=0.3)
+
 axs[1].set_xlabel("profundidad del Fluido y (m)")
 axs[1].set_ylabel("Fuerza diferencial por unidad de altura f(y)")
 axs[1].set_title(f"Integracion de la fuerza para H = {altura:.2f} m")
