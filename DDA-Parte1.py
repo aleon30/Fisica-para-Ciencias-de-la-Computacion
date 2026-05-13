@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import numpy as np
 """
 Si no tienen las librerias, instálenlas con estos comandos en el cmd:
