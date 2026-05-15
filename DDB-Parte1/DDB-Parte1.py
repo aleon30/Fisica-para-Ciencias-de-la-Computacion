@@ -427,8 +427,6 @@ botones.on_clicked(cambiar_grafica)
 # Gráfica inicial
 graficar_numerico()
 
-plt.show()
-
 # =========================================================
 # ANÁLISIS
 # =========================================================
@@ -457,3 +455,5 @@ print("""
 5. Si se disminuye Δy o se aumenta el valor de L, la aproximación numérica
    mejora, aunque también aumenta el costo computacional.
 """)
+
+plt.show()
