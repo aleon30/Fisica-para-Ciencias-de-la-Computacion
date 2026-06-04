@@ -22,7 +22,7 @@ n_modo = 7
 dx = 1.00e-2
 
 # Antinodo de refrencia
-x_antinodo_ref = 2*L*3/(n_modo*4)
+x_antinodo_ref = 0.540
 
 # MAGNITUDES DERIVADAS
 
@@ -42,7 +42,7 @@ a = velocidad * dt / dx
 t_estab = 100 * L / velocidad
 
 # Los 5 instantes de muestreo según la fórmula:
-#   t_k = t_estab + (k-1) · T/4   para k = 1,2,3,4,5
+# t_k = t_estab + (k-1) · T/4   para k = 1,2,3,4,5
 t_muestras = [t_estab + (k - 1) * T_per / 4 for k in range(1, 6)]
 
 # Tiempo total de simulación
@@ -65,17 +65,15 @@ def desplazamiento_exacto(x_arr, t_val):
 def velocidad_exacta(x_arr, t_val):
     return 2 * amplitud * omega * np.sin(k_n * x_arr) * np.cos(omega * t_val)
 
+# Condiciones iniciales
+
 u_prev = desplazamiento_exacto(x, 0.0)               # nivel n = 0  (t = 0)
 u_curr = u_prev + dt * velocidad_exacta(x, 0.0)      # nivel n = 1  (t = Δt)
 
-#  Diferencias finitas de 2do orden
-
-r2           = a ** 2
 perfiles     = {}
 paso_actual  = 0
 t_actual     = dt
 
-# Ordenamos los instantes de muestreo para capturarlos en orden
 instantes_pendientes = sorted(t_muestras)
 idx_muestra = 0
 
@@ -96,13 +94,9 @@ while t_actual <= T_sim + dt:
         tiempo_antinodo.append(t_actual)
         amplitud_antinodo.append(u_curr[idx_antinodo])
 
-    # Fórmula de avance
+    #  Diferencias finitas de 2do orden
     u_next = np.empty(nx)
-    u_next[1:-1] = (
-          2 * u_curr[1:-1]
-        -     u_prev[1:-1]
-        + r2 * (u_curr[2:] - 2 * u_curr[1:-1] + u_curr[:-2])
-    )
+    u_next[1:-1] = (2 * u_curr[1:-1] - u_prev[1:-1] + (a**2) * (u_curr[2:] - 2 * u_curr[1:-1] + u_curr[:-2]))
     u_next[0]  = 0.0
     u_next[-1] = 0.0
 
@@ -120,9 +114,9 @@ y_arr = np.array(amplitud_antinodo)
 t_rel = t_arr - t_estab
 
 fig, ax = plt.subplots(figsize=(12, 5.5))
-fig.subplots_adjust(left=0.28)   # espacio a la izquierda para los botones
+fig.subplots_adjust(left=0.28)
 
-ax_radio = fig.add_axes([0.02, 0.35, 0.15, 0.30])   # [left, bottom, width, height]
+ax_radio = fig.add_axes([0.02, 0.35, 0.15, 0.30])
 radio = RadioButtons(
     ax_radio,
     labels=["Perfil de onda", "Perfil + antinodo", "Amplitud vs tiempo"],
@@ -181,27 +175,29 @@ def dibujar_amplitud():
 
     indices_crestas, _ = find_peaks(y_arr)
 
+    num = 1
     for i in indices_crestas:
         ax.scatter(t_rel[i], y_arr[i],
                  color='red', zorder=6, s=60)
-        ax.annotate(f"t = {t_rel[i]:.8f} s",
+        ax.annotate(f"t{num} = {t_rel[i]:.8f} s",
             xy=(t_rel[i], y_arr[i]),
             xytext=(-30, -15),
             textcoords='offset points',
             fontsize=8,
             color='red',
         )
-
+        num += 1
+    
     for idx, t_cap in enumerate(sorted(perfiles.keys())):
         t_cap_rel = t_cap - t_estab
         i_cercano = np.argmin(np.abs(t_rel - t_cap_rel))
 
     ax.set_title(
-        f"Evolución temporal del desplazamiento en el antinodo $x$ = {x_antinodo_real:.3f} m",
+        f"Evolución temporal de la amplitud en el antinodo $x$ = {x_antinodo_real:.3f} m",
         fontsize=11, pad=10
     )
     ax.set_xlabel(
-        f"Tiempo desde el régimen estacionario,  $t - t_{{\\rm estab}}$  (s)",
+        f"Tiempo desde el estado estacionario,  $t - t_{{\\rm estab}}$  (s)",
         fontsize=10
     )
     ax.set_ylabel("Amplitud,  $A$  (m)", fontsize=10)
