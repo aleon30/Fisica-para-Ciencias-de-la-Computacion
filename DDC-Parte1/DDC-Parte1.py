@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from matplotlib.widgets import RadioButtons
 from scipy.signal import find_peaks
-
 import math
 
 def tres_cifras_significativas(v, _, sig=3):
@@ -19,7 +18,7 @@ L = 2.50
 tension = 150
 densidad_lineal= 8.00e-3 
 amplitud = 2.00e-2
-n_modo = 7.00
+n_modo = 7
 dx = 1.00e-2
 
 # Antinodo de refrencia
@@ -132,9 +131,7 @@ radio = RadioButtons(
 for label in radio.labels:
     label.set_fontsize(9)
 
-# ══════════════════════════════════════════════════════════════════
 #  FUNCIONES DE DIBUJO PARA CADA VISTA
-# ══════════════════════════════════════════════════════════════════
 
 def dibujar_perfil(mostrar_antinodo=False):
     ax.clear()
