@@ -22,7 +22,7 @@ n_modo = 7
 dx = 1.00e-2
 
 # Antinodo de refrencia
-x_antinodo_ref = 0.540
+x_antinodo_ref = 2*L*3/(n_modo*4)
 
 # MAGNITUDES DERIVADAS
 
