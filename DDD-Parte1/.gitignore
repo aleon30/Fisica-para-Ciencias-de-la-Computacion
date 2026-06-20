@@ -1,0 +1,8 @@
+@"
+.ipynb_checkpoints/
+__pycache__/
+*.npz
+.venv/
+"@ | Out-File -Encoding utf8 DDD-Parte1\.gitignore
+
+git add DDD-Parte1\.gitignore
