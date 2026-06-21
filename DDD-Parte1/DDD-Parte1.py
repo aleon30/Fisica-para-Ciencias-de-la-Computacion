@@ -447,7 +447,7 @@ def mostrar_trayectoria(event=None):
     anotar_angulo_con_tangente(ax, indice_derecho, 2.0, -0.10, longitud_tangente=4.0)
 
     ax.set_title(
-        "Trayectoria del rayo de luz en medio con gradiente de índice de refracción",
+        "Altura del rayo vs posición horizontal",
         fontsize=14,
         weight="bold"
     )
@@ -495,7 +495,7 @@ def mostrar_angulo(event=None):
         label=f"Ángulo en el retorno: θ = {formato_theta_retorno(theta_retorno)} rad"
     )
 
-    ax.set_title("Evolución angular del rayo de luz", fontsize=14, weight="bold")
+    ax.set_title("Ángulo de Propagación vs Posición Horizontal", fontsize=14, weight="bold")
     ax.set_xlabel("Posición horizontal, x (m)", fontsize=12)
     ax.set_ylabel("Ángulo de propagación, θ (rad)", fontsize=12)
 
