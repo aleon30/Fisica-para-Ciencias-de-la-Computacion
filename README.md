@@ -1,7 +1,7 @@
 # Fisica-para-Ciencias-de-la-Computacion
-Grupo 9
-Integrantes:
-Ángel David Cárdenas Cabrera
-Adrian Alejandro Leon Ojeda
-Luis Isaac Lazaro Machado
+Grupo 9<br>
+Integrantes:<br>
+Ángel David Cárdenas Cabrera<br>
+Adrian Alejandro Leon Ojeda<br>
+Luis Isaac Lazaro Machado<br>
 Tony Montesinos Condori
